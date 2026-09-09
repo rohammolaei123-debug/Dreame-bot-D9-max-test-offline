@@ -1,0 +1,8 @@
+{
+  "name": "D9 Max Offline Test",
+  "short_name": "D9 Max Test",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f5f5f7",
+  "theme_color": "#f5f5f7"
+}
