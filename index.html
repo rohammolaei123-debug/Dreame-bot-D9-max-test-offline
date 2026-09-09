@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f5f5f7">
+<title>D9 Max Offline Test</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #f5f5f7;
+  color: #111;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+main {
+  max-width: 700px;
+  margin: auto;
+  padding: 28px 18px 40px;
+}
+
+h1 {
+  font-size: 28px;
+  margin-bottom: 6px;
+}
+
+.subtitle {
+  color: #666;
+  margin-bottom: 24px;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 18px;
+  margin-bottom: 16px;
+}
+
+h2 {
+  font-size: 20px;
+  margin-top: 0;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  margin: 14px 0 7px;
+}
+
+input {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  font-size: 16px;
+}
+
+button {
+  width: 100%;
+  padding: 13px;
+  margin-top: 14px;
+  border: 0;
+  border-radius: 12px;
+  background: #111;
+  color: white;
+  font-size: 16px;
+}
+
+.status {
+  margin-top: 14px;
+  padding: 12px;
+  border-radius: 12px;
+  background: #f0f0f2;
+  color: #555;
+}
+
+li {
+  margin: 9px 0;
+}
+
+.small {
+  color: #777;
+  font-size: 13px;
+  text-align: center;
+}
+</style>
+</head>
+
+<body>
+
+<main>
+
+<h1>D9 Max Connection Test</h1>
+
+<p class="subtitle">
+Offline-first tester for Dreame D9 Max (RLS5-BL1)
+</p>
+
+<div class="card">
+
+<h2>Home Wi-Fi</h2>
+
+<label>Wi-Fi name (SSID)</label>
+<input id="ssid" placeholder="Enter 2.4 GHz Wi-Fi name">
+
+<label>Wi-Fi password</label>
+<input id="password" type="password" placeholder="Enter Wi-Fi password">
+
+<button onclick="saveWifi()">Save locally</button>
+
+<div id="saveStatus" class="status">
+Not saved
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>Robot Hotspot</h2>
+
+<ul>
+<li>Reset the robot Wi-Fi until it says it is waiting for network configuration.</li>
+<li>Connect the iPad to the D9 Max hotspot.</li>
+<li>Return to this page.</li>
+</ul>
+
+<div id="wifiStatus" class="status">
+Checking network...
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>Offline Mode</h2>
+
+<button onclick="checkOffline()">
+Check offline app
+</button>
+
+<div id="offlineStatus" class="status">
+Not checked
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>Local Communication</h2>
+
+<p>
+The local RLS5-BL1 communication protocol has not been verified yet.
+</p>
+
+<button onclick="testLocal()">
+Test local communication
+</button>
+
+<div id="localStatus" class="status">
+Protocol not verified
+</div>
+
+</div>
+
+<p class="small">
+No advertising. No cloud connection is used by this tester.
+</p>
+
+</main>
+
+<script>
+
+function saveWifi() {
+
+  const ssid = document.getElementById("ssid").value;
+  const password = document.getElementById("password").value;
+
+  localStorage.setItem("d9_ssid", ssid);
+  localStorage.setItem("d9_password", password);
+
+  document.getElementById("saveStatus").textContent =
+    "Wi-Fi information saved locally on this device";
+}
+
+function checkOffline() {
+
+  if (navigator.onLine) {
+
+    document.getElementById("offlineStatus").textContent =
+      "Browser currently reports online";
+
+  } else {
+
+    document.getElementById("offlineStatus").textContent =
+      "Browser currently reports offline";
+
+  }
+}
+
+function testLocal() {
+
+  document.getElementById("localStatus").textContent =
+    "Local protocol test is not implemented yet. No false success is reported.";
+}
+
+const savedSSID = localStorage.getItem("d9_ssid");
+
+if (savedSSID) {
+
+  document.getElementById("ssid").value = savedSSID;
+
+  document.getElementById("saveStatus").textContent =
+    "SSID saved locally";
+}
+
+document.getElementById("wifiStatus").textContent =
+  navigator.onLine
+    ? "Browser reports a network connection."
+    : "Browser reports offline.";
+
+</script>
+
+</body>
+</html>
